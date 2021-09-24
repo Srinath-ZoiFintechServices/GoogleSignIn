@@ -43,7 +43,9 @@ export default {
   skyBlue: "#18a0fb",
   opacityBlue: '#c5d5f0',
   cardDisabled: '#EDEDED',
-
+  splacea: '#59b2ab',
+  splaceb: '#febe29',
+  splacec: '#22bcb5',
   BrownyPink: '#f4f6f9',
   InkBlack: '#01070f',
   pinkDark: '#f1f1f1',

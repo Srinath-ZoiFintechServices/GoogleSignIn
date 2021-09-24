@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, View, Image, Text, BackHandler, AsyncStorage, TouchableOpacity, StyleSheet } from 'react-native';
+import { Dimensions, View, Image, Text, StyleSheet } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import commoncolor from '../../utilities/constants/color/commoncolor';
 import fonts from '../../utilities/constants/fonts/fonts';
@@ -12,35 +12,27 @@ export default class intro_screen extends React.Component {
             slides: [
                 {
                     key: 1,
-                    text: 'Best Advisory Award\nWinner 2021.',
-                    text1: 'Lorem ipsum dolor sit amet, consectetur\nadipiscing elit. Sed metus nunc, accumsan\nultricies orci eget, maximus tristique leo.',
-                    image: require('../../utilities/images/splacea.png'),
-                    backgroundColor: '#59b2ab',
+                    image: require('../../utilities/images/splaceb.png'),
+                    backgroundColor: commoncolor.splacea,
                 },
                 {
                     key: 2,
-                    text: 'Winning Cup Take Captain',
-                    text3: 'set of interviews following his loss at\nSuper Bowl 50. With that in mind, we\ndecided to compile some other memorable\nsports quotes about winning and losing.',
-                    image: require('../../utilities/images/splaceb.png'),
-                    backgroundColor: '#febe29',
+                    image: require('../../utilities/images/splacea.png'),
+                    backgroundColor: commoncolor.splaceb,
                 },
                 {
                     key: 3,
-                    text: 'I\'All guys Come To Enjoy\nThe Winning',
-                    text4: 'I\'All guys Come To Enjoy The Winning',
                     image: require('../../utilities/images/splacec.png'),
-                    backgroundColor: '#22bcb5',
+                    backgroundColor: commoncolor.splacec,
                 }
             ]
         }
     }
 
     _renderItem = ({ item }) => (
-        <View style={{ flex: 1, backgroundColor: item.backgroundColor }}>
-            <View style={styles.pageContainer}>
-                <View style={styles.imageContainer}>
-                    <Image source={item.image} style={styles.imagestyle} />
-                </View>
+        <View style={{ flex: 1, backgroundColor: item.backgroundColor, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={styles.imageContainer}>
+                <Image source={item.image} style={styles.imagestyle} />
             </View>
         </View>
     )
@@ -77,20 +69,12 @@ export default class intro_screen extends React.Component {
             <AppIntroSlider renderItem={this._renderItem}
                 showSkipButton={true}
                 data={this.state.slides}
-                activeDotStyle={{ backgroundColor: commoncolor.introPageDotCol }}
+                activeDotStyle={{ backgroundColor: commoncolor.black }}
                 renderSkipButton={this._renderSkipButton}
                 onDone={this._onDone}
                 renderDoneButton={this._renderDoneButton}
                 renderNextButton={this._renderNextButton} />
         )
-
-        // <View>
-        //     <TouchableOpacity onPress={() => { props.done() }}>
-        //         <View>
-        //             <Text>Button</Text>
-        //         </View>
-        //     </TouchableOpacity>
-        // </View>
     }
 }
 
@@ -105,8 +89,8 @@ const styles = StyleSheet.create({
     },
     imagestyle: {
         alignSelf: 'center',
-        height: 350,
-        width: 350
+        height: 300,
+        width: 300
     },
     pageContainer: {
         marginTop: 45,

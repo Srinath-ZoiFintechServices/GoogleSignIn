@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, BackHandler, Modal, Pressable, ActivityIndicator } from 'react-native';
 import commoncolor from '../../utilities/constants/color/commoncolor';
 import fonts from '../../utilities/constants/fonts/fonts';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
@@ -15,7 +15,8 @@ export default class login extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            userInformations: ''
+            userInformations: '',
+            modalVisible: false,
         }
     }
 
@@ -23,15 +24,44 @@ export default class login extends React.Component {
         if (this.props.route.params.userInformations != undefined && this.props.route.params.userInformations != null && this.props.route.params.userInformations != '') {
             this.setState({ userInformations: this.props.route.params.userInformations }, () => { console.log(this.state.userInformations) })
         }
+
+        BackHandler.addEventListener(
+            'hardwareBackPress',
+            this.handleBackButtonPressAndroid
+        );
     }
 
+    componentWillUnmount() {
+        BackHandler.removeEventListener(
+            'hardwareBackPress',
+            this.handleBackButtonPressAndroid
+        );
+    }
+
+    handleBackButtonPressAndroid = () => {
+        if (this.props.navigation.isFocused()) {
+            Alert.alert("Hold on!", "Are you sure you want to exit?", [
+                {
+                    text: "Cancel",
+                    onPress: () => null,
+                    style: "cancel"
+                },
+                { text: "YES", onPress: () => BackHandler.exitApp() }
+            ]);
+            return true;
+        }
+    };
+
     signOut = async () => {
+        this.setState({ modalVisible: true })
         try {
             await GoogleSignin.revokeAccess();
             await GoogleSignin.signOut();
+            this.setState({ modalVisible: false })
             this.props.navigation.navigate('Login');
         } catch (error) {
             console.error(error);
+            this.setState({ modalVisible: false })
         }
     };
 
@@ -41,6 +71,22 @@ export default class login extends React.Component {
             this.state.userInformations != '' &&
 
             <View style={{ flex: 1, }}>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                >
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={styles.centeredView}>
+                            <View style={{ justifyContent: 'center', flexDirection: 'column' }}>
+                                <ActivityIndicator size="large" />
+                            </View>
+                            <View style={{ justifyContent: 'center', flexDirection: 'column' }}>
+                                <Text>  Signing Out...</Text>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
                 <View style={{ flex: 0.5, }}>
                     <TouchableOpacity onPress={() => { this.signOut() }} style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
                         <Text style={styles.signOutText}>{'Sign Out'}</Text>
@@ -108,5 +154,14 @@ const styles = StyleSheet.create({
         width: 200,
         height: 200,
         borderRadius: 200
+    },
+    centeredView: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 2,
+        height: 60,
+        width: '80%',
+        backgroundColor: commoncolor.White
     }
 });

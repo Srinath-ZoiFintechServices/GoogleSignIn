@@ -10,8 +10,8 @@ buildscript {
         googlePlayServicesAuthVersion = "16.0.1"
     }
     repositories {
-        google()
         mavenCentral()
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.1'
