@@ -14,21 +14,21 @@ export default class intro_screen extends React.Component {
                     key: 1,
                     text: 'Best Advisory Award\nWinner 2021.',
                     text1: 'Lorem ipsum dolor sit amet, consectetur\nadipiscing elit. Sed metus nunc, accumsan\nultricies orci eget, maximus tristique leo.',
-                    // image: require('../../utils/assets/images/intro.png'),
+                    image: require('../../utilities/images/splacea.png'),
                     backgroundColor: '#59b2ab',
                 },
                 {
                     key: 2,
                     text: 'Winning Cup Take Captain',
                     text3: 'set of interviews following his loss at\nSuper Bowl 50. With that in mind, we\ndecided to compile some other memorable\nsports quotes about winning and losing.',
-                    // image: require('../../utils/assets/images/intro.png'),
+                    image: require('../../utilities/images/splaceb.png'),
                     backgroundColor: '#febe29',
                 },
                 {
                     key: 3,
                     text: 'I\'All guys Come To Enjoy\nThe Winning',
                     text4: 'I\'All guys Come To Enjoy The Winning',
-                    // image: require('../../utils/assets/images/intro.png'),
+                    image: require('../../utilities/images/splacec.png'),
                     backgroundColor: '#22bcb5',
                 }
             ]
@@ -36,18 +36,10 @@ export default class intro_screen extends React.Component {
     }
 
     _renderItem = ({ item }) => (
-        <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+        <View style={{ flex: 1, backgroundColor: item.backgroundColor }}>
             <View style={styles.pageContainer}>
                 <View style={styles.imageContainer}>
                     <Image source={item.image} style={styles.imagestyle} />
-                </View>
-                <View style={styles.headingTestContainer}>
-                    <Text style={styles.headingTestContainerText}>{item.text}</Text>
-                </View>
-                <View style={styles.paraTextContainer}>
-                    <Text style={styles.paraTextContainerText}>{item.text1}</Text>
-                    <Text style={styles.paraTextContainerText}>{item.text3}</Text>
-                    <Text style={styles.paraTextContainerText}>{item.text4}</Text>
                 </View>
             </View>
         </View>
@@ -75,7 +67,7 @@ export default class intro_screen extends React.Component {
     _renderSkipButton = () => {
         return (
             <View>
-                <Text style={{ fontSize: 14, textAlign: "left", color: commoncolor.Tableheader, lineHeight: 20, marginTop: "24%", marginLeft: "10%", fontFamily: fonts.globalrobotofonts.Rmedium }}>SKIP</Text>
+                <Text style={{ fontSize: 14, textAlign: "left", color: commoncolor.black, lineHeight: 20, marginTop: "24%", marginLeft: "10%", fontFamily: fonts.globalrobotofonts.Rmedium }}>SKIP</Text>
             </View>
         );
     };

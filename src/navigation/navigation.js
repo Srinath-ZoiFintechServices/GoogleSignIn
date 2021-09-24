@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import Login from '../screen/login/login';
 import Dashboard from '../screen/dashboard/dashboard';
+import Splace from '../screen/dashboard/splace';
 
 const Stack = createStackNavigator();
 
@@ -13,7 +14,7 @@ function Navigation() {
                 screenOptions={{
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
                 }}
-                initialRouteName="LoginScreen"
+                initialRouteName="Splace"
             // screenOptions={{
             //     headerStyle: {
             //         backgroundColor: commoncolor.Primary,
@@ -26,10 +27,16 @@ function Navigation() {
             >
                 <Stack.Screen
                     options={{ headerShown: false }}
+                    name="Splace"
+                    component={Splace}
+                />
+                <Stack.Screen
+                    options={{ headerShown: false }}
                     name="Login"
                     component={Login}
                 />
-                 <Stack.Screen
+
+                <Stack.Screen
                     options={{ headerShown: false }}
                     name="Dashboard"
                     component={Dashboard}

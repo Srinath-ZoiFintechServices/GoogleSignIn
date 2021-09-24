@@ -23,7 +23,6 @@ export default {
   BlueAsh: '#abb4bf',
   White: '#FFFFFF',
   Bordercolor: '#eeeeee',
-  datepickerselectiongapcolor: "#f8ecdd",
   PureBlack: '#000000',
   ErrorColor: "#e12d2d",
   Textcolor: "#31455e",
@@ -33,7 +32,7 @@ export default {
   dullOrange: '#af762e',
   lightOrange: '#f2d1a7',
   Gainsboro: "#e1e1e1",
-  Darkblue: "#1258a0",//paymentconfirm
+  Darkblue: "#1258a0",
   Ash: "#c6d3e1",
   blackThick: '#01070f',
   thinWhite: '#fdfdfd',
@@ -43,12 +42,8 @@ export default {
   topDivider: '#243069af',
   skyBlue: "#18a0fb",
   opacityBlue: '#c5d5f0',
-  opacityGreen: 'rgba(19, 168, 76,0.6)',
-  rgbaOpacityBlue: 'rgba(197, 213, 240,0.5)',
-  dropboxunderlying: '#f7f3ed',
   cardDisabled: '#EDEDED',
 
-  //end
   BrownyPink: '#f4f6f9',
   InkBlack: '#01070f',
   pinkDark: '#f1f1f1',
@@ -76,12 +71,4 @@ export default {
   DarkGrayColor: '#A9A9A9',
   Gray98: '#fafafa',
   lightYellow: '#FEF6C8',
-
-  sideMenu: 'rgba(18, 88, 160,0.2)',
-  overlayColor: 'rgba(58, 88, 160,0.1)',
-
-  // snackBar Color
-  successColor: "rgba(18, 168, 75, 1)",
-  faliedColor: "rgba(240, 72, 72, 1)",
-  warningColor: '#ff9800'
 }

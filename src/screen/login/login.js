@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, AsyncStorage, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, AsyncStorage, StyleSheet, Image, TouchableOpacity, Alert, ToastAndroid, BackHandler } from 'react-native';
 import commoncolor from '../../utilities/constants/color/commoncolor';
 import fonts from '../../utilities/constants/fonts/fonts';
 import auth from '@react-native-firebase/auth';
@@ -17,45 +17,87 @@ export default class login extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            userInfo: ''
+            userInfo: '',
+            currentUser: ''
         }
     }
+    revokeAccess = async () => {
+        try {
+            await GoogleSignin.revokeAccess();
+            console.log('deleted');
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    toasterMessage = (message) => {
+        ToastAndroid.showWithGravityAndOffset(
+            (message),
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+        );
+    }
+
 
     signInGoogle = async () => {
+
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
-            this.setState({ userInfo }, () => {
-                if (this.state.userInfo !== '') {
-                    this.props.navigation.navigate('Dashboard', { userInformations: this.state.userInfo })
-                }
-            });
+
+            if (userInfo !== null) {
+                this.props.navigation.navigate('Dashboard', { userInformations: userInfo })
+            }
 
         } catch (error) {
-            console.log(error)
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-                // user cancelled the login flow
+                this.toasterMessage('You have canceled the login, Please click the button to SignIn')
             } else if (error.code === statusCodes.IN_PROGRESS) {
                 // operation (e.g. sign in) is in progress already
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-                // play services not available or outdated
+                this.toasterMessage('Service not available, Please try again sometime.')
             } else {
-                // some other error happened
+                this.toasterMessage('Check you internet connection or Please try again sometime.')
             }
         }
     };
 
-
     componentDidMount = () => {
-
+        BackHandler.addEventListener(
+            'hardwareBackPress',
+            this.handleBackButtonPressAndroid
+        );
     }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener(
+            'hardwareBackPress',
+            this.handleBackButtonPressAndroid
+        );
+    }
+
+    handleBackButtonPressAndroid = () => {
+        if (this.props.navigation.isFocused()) {
+            Alert.alert("Hold on!", "Are you sure you want to exit?", [
+                {
+                    text: "Cancel",
+                    onPress: () => null,
+                    style: "cancel"
+                },
+                { text: "YES", onPress: () => BackHandler.exitApp() }
+            ]);
+            return true;
+        }
+    };
 
     render() {
         return (
-            <View style={{ flex: 1, }}>
+            <View style={{ flex: 1, backgroundColor: commoncolor.topDivider }}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => { this.signInGoogle() }} activeOpacity={0.8} style={styles.signinWithGoogle}>
-                        <View style={{ flex: 0.3, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ flex: 0.3, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: commoncolor.White }}>
                             <Image source={require('../../utilities/images/Google.png')} style={styles.imagestyle} />
                         </View>
                         <View style={styles.buttonLayout}>
@@ -67,7 +109,6 @@ export default class login extends React.Component {
         )
     }
 }
-
 
 const styles = StyleSheet.create({
     signinWithGoogle: {
