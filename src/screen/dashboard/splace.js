@@ -21,7 +21,7 @@ export default class Splace extends React.Component {
     getCurrentUser = async () => {
         const currentUser = await GoogleSignin.getCurrentUser();
         if (currentUser != null) {
-            this.props.navigation.navigate('Dashboard', { userInformations: currentUser })
+            this.props.navigation.navigate('TourPage', { userInformations: currentUser })
         } else {
             this.props.navigation.navigate('Login')
         }

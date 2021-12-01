@@ -1,8 +1,14 @@
-import React from 'react'
+import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, BackHandler, Modal, Pressable, ActivityIndicator } from 'react-native';
 import commoncolor from '../../utilities/constants/color/commoncolor';
 import fonts from '../../utilities/constants/fonts/fonts';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import {
+    TourGuideProvider, // Main provider
+    TourGuideZone, // Main wrapper of highlight component
+    TourGuideZoneByPosition, // Component to use mask on overlay (ie, position absolute)
+    useTourGuideController, // hook to start, etc.
+} from 'react-native-tourguide';
 
 GoogleSignin.configure({
     scopes: [], // if you want access over any api
@@ -10,10 +16,17 @@ GoogleSignin.configure({
     offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
 });
 
+// const {
+//     canStart, // a boolean indicate if you can start tour guide
+//     start, // a function to start the tourguide
+//     stop, // a function  t  o stopping it
+//     eventEmitter, // an object for listening some events
+// } = useTourGuideController()
+
 export default class login extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             userInformations: '',
             modalVisible: false,
@@ -21,6 +34,11 @@ export default class login extends React.Component {
     }
 
     componentDidMount = () => {
+        
+        if (useTourGuideController.canStart) {
+            // 👈 test if you can start otherwise nothing will happen
+            start()
+        }
         if (this.props.route.params.userInformations != undefined && this.props.route.params.userInformations != null && this.props.route.params.userInformations != '') {
             this.setState({ userInformations: this.props.route.params.userInformations }, () => { console.log(this.state.userInformations) })
         }
@@ -64,7 +82,6 @@ export default class login extends React.Component {
             this.setState({ modalVisible: false })
         }
     };
-
 
     render() {
         return (

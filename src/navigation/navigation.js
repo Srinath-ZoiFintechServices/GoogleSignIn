@@ -4,6 +4,7 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 import Login from '../screen/login/login';
 import Dashboard from '../screen/dashboard/dashboard';
 import Splace from '../screen/dashboard/splace';
+import TourPage from '../screen/dashboard/tourguid';
 
 const Stack = createStackNavigator();
 
@@ -35,11 +36,15 @@ function Navigation() {
                     name="Login"
                     component={Login}
                 />
-
                 <Stack.Screen
                     options={{ headerShown: false }}
                     name="Dashboard"
                     component={Dashboard}
+                />
+                 <Stack.Screen
+                    options={{ headerShown: false }}
+                    name="TourPage"
+                    component={TourPage}
                 />
             </Stack.Navigator>
         </NavigationContainer >

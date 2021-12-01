@@ -19,10 +19,13 @@
     "react": "17.0.2",
     "react-native": "0.65.1",
     "react-native-app-intro-slider": "^4.0.4",
+    "react-native-copilot": "^2.5.1",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-paper": "^4.9.2",
     "react-native-safe-area-context": "^3.3.2",
+    "react-native-svg": "^12.1.1",
+    "react-native-tourguide": "^1.0.6",
     "react-native-vector-icons": "^8.1.0"
   },
   "devDependencies": {
