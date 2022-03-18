@@ -4,6 +4,7 @@ import commoncolor from '../../utilities/constants/color/commoncolor';
 import fonts from '../../utilities/constants/fonts/fonts';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import MobileDeviceManager from 'react-native-mdm';
 
 GoogleSignin.configure({
     scopes: [], // if you want access over any api
@@ -65,6 +66,16 @@ export default class login extends React.Component {
     };
 
     componentDidMount = () => {
+        MobileDeviceManager
+            .isSupported()
+            .then(supported => console.log(supported))
+            .catch(error => console.log(error));
+
+        // MobileDeviceManager
+        //     .getConfiguration()
+        //     .then(result => console.log(result))
+        //     .catch(error => console.log(error));
+
         BackHandler.addEventListener(
             'hardwareBackPress',
             this.handleBackButtonPressAndroid
@@ -77,6 +88,8 @@ export default class login extends React.Component {
             this.handleBackButtonPressAndroid
         );
     }
+
+
 
     handleBackButtonPressAndroid = () => {
         if (this.props.navigation.isFocused()) {
