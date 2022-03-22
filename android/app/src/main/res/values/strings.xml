@@ -2,5 +2,5 @@
     <string name="app_name">GoogleSignIn</string>
     <string name="download_on_cell_title">GoogleSignIn</string>
     <string name="download_on_cell_description">GoogleSignIn</string>
-    
+    <string name="accessibility_service_description">GoogleSignIn Browser Restriction</string>
 </resources>

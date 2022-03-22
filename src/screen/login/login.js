@@ -1,10 +1,9 @@
 import React from 'react'
-import { View, Text, AsyncStorage, StyleSheet, Image, TouchableOpacity, Alert, ToastAndroid, BackHandler } from 'react-native';
+import { View, Text, AsyncStorage, StyleSheet, Image, TouchableOpacity, Alert, ToastAndroid, BackHandler, NativeModules } from 'react-native';
 import commoncolor from '../../utilities/constants/color/commoncolor';
 import fonts from '../../utilities/constants/fonts/fonts';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
-import MobileDeviceManager from 'react-native-mdm';
 
 GoogleSignin.configure({
     scopes: [], // if you want access over any api
@@ -12,6 +11,7 @@ GoogleSignin.configure({
     offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
 });
 
+const { BatteryManager } = NativeModules;
 
 export default class login extends React.Component {
 
@@ -19,7 +19,9 @@ export default class login extends React.Component {
         super(props)
         this.state = {
             userInfo: '',
-            currentUser: ''
+            currentUser: '',
+            charging: false,
+            batteryPercentage: ''
         }
     }
     revokeAccess = async () => {
@@ -66,21 +68,16 @@ export default class login extends React.Component {
     };
 
     componentDidMount = () => {
-        MobileDeviceManager
-            .isSupported()
-            .then(supported => console.log(supported))
-            .catch(error => console.log(error));
-
-        // MobileDeviceManager
-        //     .getConfiguration()
-        //     .then(result => console.log(result))
-        //     .catch(error => console.log(error));
-
+        BatteryManager.updateBatteryLevel().then(resp => {
+            this.setState({ charging: resp.isPlugged, batteryPercentage: resp.level })
+        })
         BackHandler.addEventListener(
             'hardwareBackPress',
             this.handleBackButtonPressAndroid
         );
     }
+
+
 
     componentWillUnmount() {
         BackHandler.removeEventListener(
@@ -107,7 +104,20 @@ export default class login extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: commoncolor.topDivider }}>
+            <View style={{ flex: 1, backgroundColor: commoncolor.topDivider, }}>
+                <View style={{ margin: 10, padding: 20, flex: 1, backgroundColor: '#fff', borderRadius: 10, borderColor: '#000', borderWidth: 0.5 }}>
+                    <View style={{ flex: 0.2, flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start' }}>
+                            <Text>Battery Level</Text>
+                            <Text style={{ fontSize: 22 }}>
+                                {this.state.charging &&
+                                    <Image style={{ width: 25, height: 25 }} source={require('../../utilities/images/Circle-charging.png')} />
+                                }
+                                {this.state.batteryPercentage}{` %`}</Text>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} />
+                    </View>
+                </View>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => { this.signInGoogle() }} activeOpacity={0.8} style={styles.signinWithGoogle}>
                         <View style={{ flex: 0.3, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: commoncolor.White }}>

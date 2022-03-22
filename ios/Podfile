@@ -12,6 +12,8 @@ target 'GoogleSignIn' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-mdm', :path => '../node_modules/react-native-mdm'
+
   target 'GoogleSignInTests' do
     inherit! :complete
     # Pods for testing

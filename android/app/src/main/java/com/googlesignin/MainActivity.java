@@ -1,7 +1,7 @@
 package com.googlesignin;
-
+import 	android.content.pm.PackageManager;
 import com.facebook.react.ReactActivity;
-
+import android.content.ComponentName;
 public class MainActivity extends ReactActivity {
 
   /**
