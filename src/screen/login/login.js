@@ -4,6 +4,7 @@ import commoncolor from '../../utilities/constants/color/commoncolor';
 import fonts from '../../utilities/constants/fonts/fonts';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import Heartbeat from './Heartbeat';
 
 GoogleSignin.configure({
     scopes: [], // if you want access over any api
@@ -11,7 +12,7 @@ GoogleSignin.configure({
     offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
 });
 
-const { BatteryManager } = NativeModules;
+const { BatteryManager, HeartbeatCall } = NativeModules;
 
 export default class login extends React.Component {
 
@@ -71,13 +72,12 @@ export default class login extends React.Component {
         BatteryManager.updateBatteryLevel().then(resp => {
             this.setState({ charging: resp.isPlugged, batteryPercentage: resp.level })
         })
+        Heartbeat.startService();
         BackHandler.addEventListener(
             'hardwareBackPress',
             this.handleBackButtonPressAndroid
         );
     }
-
-
 
     componentWillUnmount() {
         BackHandler.removeEventListener(
@@ -119,7 +119,7 @@ export default class login extends React.Component {
                     </View>
                 </View>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => { this.signInGoogle() }} activeOpacity={0.8} style={styles.signinWithGoogle}>
+                    <TouchableOpacity onPress={() => { Heartbeat.stopService(); }} activeOpacity={0.8} style={styles.signinWithGoogle}>
                         <View style={{ flex: 0.3, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: commoncolor.White }}>
                             <Image source={require('../../utilities/images/Google.png')} style={styles.imagestyle} />
                         </View>
